@@ -1,7 +1,11 @@
 from rest_framework import serializers
-from .models import student_profile
+from .models import StudentProfile, Course
 
-class student_profileserilizer(serializers.ModelSerializer):
+class StudentProfileserializer(serializers.ModelSerializer):
     class Meta:
-        model= student_profile
-        fields= ('student_id','id','department')
+        model= StudentProfile
+        fields= ('student_id','id','department','fristname','lastname')
+class Courseserilserializer(serializers.Modelserializer):
+    class Meta:
+        
+        feild

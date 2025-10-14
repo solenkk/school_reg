@@ -1,21 +1,24 @@
 from rest_framework import serializers
 from .models import StudentProfile, Course, Enrollment
 
-class StudentProfileserializer(serializers.ModelSerializer):
-    model= StudentProfile
-    class Meta:
-        fields= ('student_id','id','department','fristname','lastname')
 
-class Courseserilserializer(serializers.Modelserializer):
-    model=Course
+class StudentProfileSerializer(serializers.ModelSerializer):
     class Meta:
-        student_identity=StudentProfileserializer(source='StudentProfile' , read_only=True)
+        model = StudentProfile
+        fields = ('id', 'student_id', 'department', 'first_name', 'last_name')
 
-        feild=('title','code', 'credit_hour', 'instructor','id')
 
-class EnrollmentSerialzer(serializers.Modelserializer):
-    model=Enrollment
-    stuedent_identity= StudentProfileserializer(source='studentprofile', read_only=True)
+class CourseSerializer(serializers.ModelSerializer):
     class Meta:
-    
-        fields=('date_enrolled','student','course','id')
+        model = Course
+        fields = ('id', 'title', 'code', 'credit_hour', 'instructor')
+
+
+class EnrollmentSerializer(serializers.ModelSerializer):
+    # Nested serializer (read-only)
+    student_identity = StudentProfileSerializer(source='student', read_only=True)
+    course_info = CourseSerializer(source='course', read_only=True)
+
+    class Meta:
+        model = Enrollment
+        fields = ('id', 'student', 'course', 'date_enrolled', 'status', 'student_identity', 'course_info')
